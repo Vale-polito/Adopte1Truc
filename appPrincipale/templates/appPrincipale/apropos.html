@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+	{% block load_static %}
+	{% load static %}
+	{% endblock %}
+
+
+{% block top %}
+							<h1>About us</h1>
+{% endblock %}
+
+{% block corps %}
+	<div id="fh5co-about">
+		<div class="container">
+			<div class="about-content">
+				<div class="row animate-box">
+					<div class="col-md-6 col-md-push-6">
+						<div class="desc">
+							<h3>Histoire</h3>
+							<p>Ce site a été créé dans le cadre d'un projet de développement WEB.</p>
+							</div>
+						<div class="desc">
+							<h3>Mission</h3>
+							<p>AdopteUnTruc est un site permettant l'échange d’objet ou bien même le proposition de services. Le principe étant que des personnes prêtent à d’autre utilisateurs des objets qu’ils n’utilisent pas souvent.</p>
+							<p>Par exemple sur un campus universitaire pourvu de nombreux terrains de tennis nous avons pensé qu’il serait intéressant de pouvoir être mis en relation avec des personnes possédant des raquettes de tennis afin de pouvoir faire une petite partie sans avoir besoin d’acheter tout le matériel nécessaire.</p>
+						</div>
+					</div>
+					<div class="col-md-6 col-md-pull-6">
+						<img class="img-responsive" src="{%static 'appPrincipale/images/Circles.png' %}" alt="about">
+					</div>
+
+				</div>
+			</div>
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<span>Productive Staff</span>
+					<h2>Notre Staff</h2>
+					<p>Groupe de travail ayant réaliser le site.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 col-sm-3 animate-box" data-animate-effect="fadeIn">
+					<div class="fh5co-staff">
+						<img src="{%static 'appPrincipale/images/Marian.jpg' %}" alt="Free HTML5 Templates by FreeHTML5.co">
+						<h3>Marian Lapeyre</h3>
+						<strong class="role">Chef de projet</strong>
+						<ul class="fh5co-social-icons">
+							<li><a href="https://github.com/mlapeyre73"><i class="icon-github"></i></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3 animate-box" data-animate-effect="fadeIn">
+					<div class="fh5co-staff">
+						<img src="{%static 'appPrincipale/images/Valentin.jpg' %}" alt="Free HTML5 Templates by FreeHTML5.co">
+						<h3>Valentin Pereira</h3>
+						<strong class="role"></strong>
+						<ul class="fh5co-social-icons">
+							<li><a href="https://github.com/ValiTox"><i class="icon-github"></i></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3 animate-box" data-animate-effect="fadeIn">
+					<div class="fh5co-staff">
+						<img src="{%static 'appPrincipale/images/Baptiste.jpg' %}" alt="Free HTML5 Templates by FreeHTML5.co">
+						<h3>Baptiste Cauchard</h3>
+						<strong class="role"></strong>
+						<ul class="fh5co-social-icons">
+							<li><a href="https://github.com/MrLeninstalock"><i class="icon-github"></i></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3 animate-box" data-animate-effect="fadeIn">
+					<div class="fh5co-staff">
+						<img src="{%static 'appPrincipale/images/Thomas.jpg' %}" alt="Free HTML5 Templates by FreeHTML5.co">
+						<h3>Thomas Rochette</h3>
+						<strong class="role"></strong>
+						<ul class="fh5co-social-icons">
+							<li><a href="https://github.com/ThomasRochette"><i class="icon-github"></i></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-md-5 col-md-push-1 animate-box">
+
+					<div class="fh5co-contact-info">
+						<h3><br>Contact Information</h3>
+						<ul>
+							<li class="address">6 Avenue des Arts, <br> INSA, Villeurbanne 69100 </li>
+							<li class="phone"><a href="">+033 616 468 526</a></li>
+							<li class="email"><a href="mailto:marian.lapeyre@insa-lyon.fr">marian.lapeyre@insa-lyon.fr</a></li>
+							<li class="url"><a href="http://FreeHTML5.co">FreeHTML5.co</a></li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="fh5co-started">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<h2>Fonctionnement général</h2>
+					<p>Pour atteindre nos objectifs, nous avons défini plusieurs objectifs principaux, vitaux au bon fonctionnement, et des objectifs secondaires, qui seraient optionnels mais qui pourraient être de véritables atouts pour notre site.</p>
+					<h3>Fonctionnalités principales</h3>
+					<ul>
+						<li>Gestion de comptes utilisateurs. Un utilisateur doit pouvoir s’inscrire, se connecter, se déconnecter.<br>L’utilisateur a aussi la possibilité de modifier ses informations personnels  tels que nom, prénom, email. Cependant il n’est pas possible de changer son mot de passe, ni de le récupérer en cas de perte.</li>
+						<li>Article : lorsqu’un utilisateur est connecté il peut créer un objet, le modifier, ou le supprimer.<br>Ainsi tous les objets créée sont forcément lié à un compte utilisateur.</li>
+						<li>Recherche d’objets : il est possible de faire des recherches sur plusieurs critères :
+							<ul>
+								<li>recherche de contenu dans le titre et la description de l’article</li>
+								<li>recherche par code postal</li>
+								<li>recherche par Catégorie</li>
+							</ul>
+						</li>
+					</ul>
+					<h3>Fonctionnalités secondaires</h3>
+					<ul>
+						<li>Mise en place d’un système commentaires. Chaque utilisateur connecté avec son compte à la possibilité d’ajouter un commentaire à un article.<br>Ainsi les commentaires sont liés à un article et aussi à un utilisateur.</li>
+						<li>Cartographie : Lorsque l’on effectue une recherche tous les articles correspondant à la requête seront affichés sur une carte grâce à l’API Google. De plus lorsqu’un utilisateur se connecte il a la possibilité d'accepter d’être géolocalisé. La carte sera automatiquement centrée sur la position de l’utilisateur. Mais si ce dernier refuse, la carte sera centrée sur la France.</li>
+						<li>Filtre de données : nous avons mis en place des filtres empêchant un utilisateur de saisir des propos injurieux dans les commentaires et les articles. De plus l’utilisateur est aussi obligé de saisir un code postal valide.</li>
+						<li>Mise en place d’un script Javascript permettant de mettre directement l'utilisateur sur la portion de page contenu le résultat de sa recherche.</li>
+					</ul>
+					<h2>Technologies utilisées pour le développement</h2>
+					<p>Nous avons utilisé le framework Django pour  la création de notre site. Ce framework comporte de nombreux intérêts puisqu’il fournit de nombreuses fonctionnalitées préconçues et notamment l'intégration d’un ORM permettant la communication avec n’importe qu’elle base de donné. Django va encore plus loin puisqu’il intègre directement une base de données Sqlite3. </p>
+					<p>Mais le véritable point fort de cet framework c’est qu’il utilise l'architecture logicielle MVT (Model View Template), dérivé de MVC (Model View Controller), ce qui facilite grandement le développement, la compréhension de l’architecture. C’est aujourd’hui quasiment indispensable d’utiliser cette architecture.</p>
+					<p>Concernant la partie la visuelle HTML/CSS, nous avons utilisé un bootStrap gratuit, que nous avons adapté au fonctionnement de la framework Django. Ce bootStrap, en plus d’avoir un visuel agréable avait aussi la caractéristique d’être Responsive.</p>
+					<p>Pour l’intégration de la carte et ses différentes fonctionnalitées (géolocalisation de l’utilisateur, des articles…), nous avons utilisé l’API GoogleMaps en JavaScript.</p>
+					<h3>Base de données</h3>
+					<p>Django passant par un ORM, la gestion de la base de donnée n’est pas un problème. Nous n’avons pas eu à écrire de requêtes SQL, et l’ajout, suppression de données se gère comme avec des objets. Nous n’avions qu'à définir des modèles pour ces objets, que nous définissons ci-dessous.</p>
+					<img src="{%static 'appPrincipale/images/bdd.jpg' %}" alt="Free HTML5 Templates by FreeHTML5.co">
+					<p>Comme on peut le voir de part les dépendances fonctionnelles (représentées par des flèches bleues) ces “modèles” correspondent à des tables FNBC.</p>
+					<p>Le seul doute que nous avons pu avoir concernait la dépendance fonctionnelle entre le code postal et l’adresse, cependant vu que plusieurs ville on les mêmes noms de rue, cette dépendance n’existe pas.</p>
+					<p>L’une des particularités des modèles de Django est que les clefs étrangères correspondent directement à des objets des autres modèles, c’est pour cela que nous avons mis Objet, User et non user-id et id-objet.</p>
+					<p>Une particularité est que les “id” sont des clés uniques, générées automatiquement par le framework et donc ils n’apparaissent pas dans la définition de nos modèles.</p>
+					<h2>Architecture MVT</h2>
+					<h3>Models</h3>
+					<p>Le framework Django a développé ses propres fonctions de recherche, ces dernières sont beaucoup plus facile à prendre en main que des requêtes SQL classique mais elles nécessitent cependant que les “modèles d’objets” soient fait selon les règles de construction de Django.</p>
+					<p>Par exemple si l’on veut sélectionner tous les articles publiés par le User=1, il n’est pas nécessaire de faire une jointure de table Django s’en charge. Ainsi la requête ressemblera à : Comentaire.objects.filter(user_id=1)</p>
+					<h4>Validation des données</h4>
+					<p>Pour insérer des informations dans la base de données, Django met a disposition des fonctions vérifiant les informations passées dans les formulaires (forms.py). Nativement, cela permet seulement de vérifier que le format des données en entrées est identique au format des données attendus par le modèle. Par exemple un champ “Prénom” rempli par “12435” sera refusé.</p>
+					<p>Nous avons cependant ajouté nos propres critères de validation. Par exemple il n’est pas possible de publier de gros mots, ni de rentrer un code postal qui ne soit pas composé de cinq chiffres.</p>
+					<h3>Vue</h3>
+					<p>La Vue est le seul élément visible par l’utilisateur. C’est l’interface graphique entre l’utilisateur et le controller.</p>
+					<h3>Template/"Controller"</h3>
+					<p>Le controller est censé prendre en charge tout les interactions de l’utilisateurs, d'interagir avec le base de donnée, puis avec la vue qui renverra les informations à l’utilisateur.</p>
+					<p>Cependant Django utilise le modèle MVT, remplaçant le C de controller par le T de template. En effet le développeur n’a pas besoin de s’occuper du controller, tout est orchestré par Django et nous n’avons qu'à fournir des templates HTML avec des champs prédéfini que Django remplira lui même en fonction de nos modèles.</p>
+					<h2>Maquette du site</h2>
+					<p>L’entête de notre site est un menu bandeau permettant de naviguer entre les différentes pages de notre site. Dans le pied de page ce trouve un autre menu permettant cet fois ci d’avoir accès au caractéristique de notre site notamment : “le rapport de projet” et “les termes d’utilisation”</p>
+					<h3>AdopteUnTruc</h3>
+					<p>Cette page est la page d’accueil de notre site. On peut y trouver une barre de recherche ainsi que tous les articles ayant été publiées pendant le mois courant.</p>
+					<h3>Tous les articles</h3>
+					<p>C’est sur cette page que sont affichés les résultats d’une recherche (par défaut ce sont les objets publiés pendant le mois qui sont affichés). Tous les objets de la recherche sont affichés sur une carte google map avec leurs distance par rapport à l’utilisateur.</p>
+					<h3>Profil</h3>
+					<p>Sur cette page s’affiche tous les objets que l’utilisateur a partagé sur AdopteUnTruc. S’il clic sur un objet il sera redirigé sur une page où il pourra supprimer ou modifier sa publication s’il le souhait. De plus depuis “Profil” l’utilisateur peut modifier son profil s’il le souhaite. Si l’utilisateur n’est pas connecté avec son compte il est rédigé vers une page de connection.</p>
+					<h3>Inscription</h3>
+					<p>Depuis cette page l’utilisateur peut se créer un compte.Des conditions sur le mots de passe et l’adresse mail ont été mis en place. Ainsi un mot de passe trop faible en terme de sécurité sera refusé, ainsi qu’une adresse mail erronée.</p>
+					<h3>Connexion</h3>
+					<p>Sur cette page l’utilisateur peut se connecter avec un compte déjà créé.</p>
+					<h3>Ajouter un article</h3>
+					<p>ci l’utilisateur ajoute un article.  L’article sera automatique lié au compte de l’utilisateur, de plus une date de publication est aussi ajouté automatiquement. Si l’utilisateur n’est pas connecté avec son compte il est rédigé vers une page de connection.</p>
+					<h2>A améliorer</h2>
+					<p>Nous n’avons pas mis en place de système permettant  à l’utilisateur de changer son mot de passe, ni de le récupérer en cas d’oublie. De plus nous n’avons fait que très peu d'Ajax ce qui est dommage étant donné que cette méthodologie est très utile, notamment pour l’envoie de formulaire par exemple. Il aurait aussi été très intéressant que les autres utilisateurs ne puissent pas avoir accès à l’adresse mail du propriétaire d’un objet et que tous les échanges d’informations se fasse via la site. Néanmoins étant donné que Leboncoin fonctionne de cette manière nous n’avons pas pensé qu’il était fondamentale d’implémenter cette fonctionnalité.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

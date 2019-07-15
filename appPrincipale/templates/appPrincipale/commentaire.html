@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+	{% block load_static %}
+	{% load static %}
+	{% endblock %}
+
+
+
+{% block top %}
+							<h1>Déposer un commentaire </h1>
+{% endblock %}
+
+
+{% block corps %}
+		{% if request.user.is_authenticated %}
+		
+		
+			{% if bol_vulgaire %}
+					<div id="fh5co-services" class="fh5co-bg-section">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-4 col-sm-4">
+									<div class="feature-center animate-box" data-animate-effect="fadeIn">
+										<span class="icon">
+											<i class="icon-eye"></i>
+										</span>
+										<h3>Restez poli s'il vous plait</h3>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				{% endif %}
+			<div id="fh5co-contact">
+				<div class="container">
+					<div class="row">
+
+
+						<form action="{% url "commentaire" %}" method="post">
+							{% csrf_token %}
+
+							<div class="col-md-6 animate-box">
+								<h3>Votre commentaire</h3>
+
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="subject">Subject</label> -->
+										<input type="text" id="id_titre" name="titre" class="form-control" placeholder="Titre du commentaire">
+									</div>
+								</div>
+
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="message">Message</label> -->
+										<textarea id="id_contenu" name="contenu" id="message" cols="30" rows="10" class="form-control" placeholder="Votre commentaire"></textarea>
+									</div>
+								</div>
+
+								<input type="hidden" name="objet_id" value={{objet_id}} />
+
+								<div class="form-group">
+									<input type="submit" value="Publier" class="btn btn-primary">
+								</div>
+							</div>
+
+						</form>
+
+					</div>
+
+				</div>
+			</div>
+			<div id="map" class="fh5co-map"></div>
+
+			<div id="fh5co-started">
+				<div class="container">
+					<div class="row animate-box">
+						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+							<h2>Consultez les autres articles!</h2>
+							<p>N'hésitez pas à jeter un oeil aux nombreux articles mis en ligne par la communauté UnTruc!</p>
+						</div>
+					</div>
+					<div class="row animate-box">
+						<div class="col-md-8 col-md-offset-2">
+							<form action="/accueil/work" class="form-inline">
+								<div class="col-md-6 col-md-offset-3 col-sm-6">
+									<button type="submit" class="btn btn-default btn-block">Tous les articles</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		{% else %}
+		<div id="fh5co-started">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+						<h2>Vous devez être connecté pour ajouter une annonce!</h2>
+						<p>Connectez-vous ou inscrivez-vous pour avoir accès à toutes les options proposées par UnTruc.</p>
+					</div>
+				</div>
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2">
+						<form action="/accueil/blog" class="form-inline">
+							<div class="col-md-6 col-md-offset-3 col-sm-6">
+								<button type="submit" class="btn btn-default btn-block">Se connecter</button>
+							</div>
+						</form>
+						<form action="/accueil/inscription" class="form-inline">
+							<div class="col-md-6 col-md-offset-3 col-sm-6">
+								<button type="submit" class="btn btn-default btn-block">S'inscrire</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+{% endblock %}
+
+
+
+{% block js %}
+	<script>
+	var goToArticle = function() {
+		$('html, body').animate({scrollTop: $('#fh5co-contact').offset().top}, 2000);
+		};
+
+
+	 if(window.attachEvent) {
+		window.attachEvent('onload',goToArticle);
+	} else {
+		if(window.onload) {
+				var curronload = window.onload;
+				var newonload = function(evt) {
+						curronload(evt);
+						goToArticle(evt);
+				};
+				window.onload = newonload;
+		} else {
+				window.onload = goToArticle;
+		}
+	} </script>
+{% endblock %}

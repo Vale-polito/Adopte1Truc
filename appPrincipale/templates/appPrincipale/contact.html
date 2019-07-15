@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+	{% block load_static %}
+	{% load static %}
+	{% endblock %}
+
+
+
+	{% block fh5co-nav %}
+		<nav class="fh5co-nav" role="navigation">
+
+
+			<div class="container">
+				<div class="row">
+					<div class="left-menu text-right menu-1">
+						<ul>
+							<li><a href="/accueil/work">Tous les articles</a></li>
+							<li><a href="/accueil/about">Profil</a></li>
+							<li><a href="/accueil/services">Accueil</a></li>
+						</ul>
+					</div>
+					<div class="logo text-center">
+						<div id="fh5co-logo"><a href="/accueil/index"><img src="{%static 'appPrincipale/images/logoA1Tpetitsf.png' %}" alt="tonimage" /></a></div>
+					</div>
+					<div class="right-menu text-left menu-1">
+						<ul>
+							{% if request.user.is_authenticated %}
+									<li><a href="/accueil/logout/">Déconnexion</a></li>
+							{% else %}
+									<li><a href="/accueil/blog">Connexion</a></li>
+							{% endif %}
+							<li><a href="/accueil/inscription">Inscription</a></li>
+							<li class="active"><a href="/accueil/contact">Ajouter un article</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</nav>
+
+	{% endblock %}
+
+{% block top %}
+							<h1>Déposer une annonce</h1>
+{% endblock %}
+
+{% block fh5co-nav %}
+{% block corps %}
+		{% if request.user.is_authenticated %}
+		{% if objet_false %}
+		<div id="fh5co-services" class="fh5co-bg-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-4">
+						<div class="feature-center animate-box" data-animate-effect="fadeIn">
+							<span class="icon">
+								<i class="icon-eye"></i>
+							</span>
+							<h3>Erreur à la création de l'article (champ manquant ou faux).</h3>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+			<div id="fh5co-contact">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-5 col-md-push-1 animate-box">
+
+							<div class="fh5co-contact-info">
+					 <form id="id" action="{% url "contact" %}" method="get">
+
+								{% csrf_token %}
+								<h3>Photo</h3>
+								<ul>
+									<li> Fichiers .jpg / .png / .gif (Max: 20Mo)</li>
+								</ul>
+									<input type="file" name="image"/>
+
+							</div>
+
+						</div>
+						<div class="col-md-6 animate-box">
+							<h3>Votre annonce</h3>
+
+								<div class="row form-group">
+									<!-- PENSER A ENLEVER FIRST ET LAST NAME POUR QUE LE PSEUDO SOIT MIT AUTOMATIQUEMENT A LA PLACE -->
+									<div class="col-md-6">
+										<!-- <label for="fname">First Name</label> -->
+										<input type="text" id="fname" class="form-control" placeholder="Prénom">
+									</div>
+									<div class="col-md-6">
+										<!-- <label for="lname">Last Name</label> -->
+										<input type="text" id="lname" class="form-control" placeholder="Nom de famille">
+									</div>
+								</div>
+
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="email">Email</label> -->
+										<input type="text" id="email" class="form-control" placeholder="Adresse e-mail">
+									</div>
+								</div>
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="email">Email</label> -->
+										<input type="text" id="phone" class="form-control" placeholder="Téléphone">
+									</div>
+								</div>
+
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="subject">Subject</label> -->
+										<input type="text" id="id_nom" name"nom" class="form-control" placeholder="Titre de l'annonce">
+									</div>
+								</div>
+
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="message">Message</label> -->
+										<textarea name="message" id="message" cols="30" rows="10" class="form-control" placeholder="Description de l'annonce"></textarea>
+									</div>
+								</div>
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="email">Email</label> -->
+										<input type="text" id="id_code_postal" name="code_postal" class="form-control" placeholder="Code Postal">
+									</div>
+								</div>
+								<!--<div class="row form-group">
+									<div class="col-md-12">
+
+										<input type="text" id="phone" class="form-control" placeholder="Adresse">
+									</div>-->
+								</div>
+								<div class="form-group">
+									<input type="submit" value="Publier" class="btn btn-primary">
+								</div>
+
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div id="map" class="fh5co-map"></div>
+
+			<div id="fh5co-started">
+				<div class="container">
+					<div class="row animate-box">
+						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+							<h2>Consultez les autres articles!</h2>
+							<p>N'hésitez pas à jeter un oeil aux nombreux articles mis en ligne par la communauté UnTruc!</p>
+						</div>
+					</div>
+					<div class="row animate-box">
+						<div class="col-md-8 col-md-offset-2">
+							<form action="/accueil/work" class="form-inline">
+								<div class="col-md-6 col-md-offset-3 col-sm-6">
+									<button type="submit" class="btn btn-default btn-block">Tous les articles</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		{% else %}
+		<div id="fh5co-started">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+						<h2>Vous devez être connecté pour ajouter une annonce!</h2>
+						<p>Connectez-vous ou inscrivez-vous pour avoir accès à toutes les options proposées par UnTruc.</p>
+					</div>
+				</div>
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2">
+						<form action="/accueil/blog" class="form-inline">
+							<div class="col-md-6 col-md-offset-3 col-sm-6">
+								<button type="submit" class="btn btn-default btn-block">Se connecter</button>
+							</div>
+						</form>
+						<form action="/accueil/inscription" class="form-inline">
+							<div class="col-md-6 col-md-offset-3 col-sm-6">
+								<button type="submit" class="btn btn-default btn-block">S'inscrire</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+{% endblock %}
+
+
+{% block js %}
+	<script>
+	var goToArticle = function() {
+		$('html, body').animate({scrollTop: $('#endroit_chargement').offset().top}, 2000);
+		};
+
+
+	 if(window.attachEvent) {
+		window.attachEvent('onload',goToArticle);
+	} else {
+		if(window.onload) {
+				var curronload = window.onload;
+				var newonload = function(evt) {
+						curronload(evt);
+						goToArticle(evt);
+				};
+				window.onload = newonload;
+		} else {
+				window.onload = goToArticle;
+		}
+	} </script>
+{% endblock %}

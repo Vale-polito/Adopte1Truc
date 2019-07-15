@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+	{% block load_static %}
+	{% load static %}
+	{% endblock %}
+
+
+{% block top %}
+							<h1>Consulter une annonce</h1>
+{% endblock %}
+
+{% block des_if %}
+	{% if envoie %}
+		<div id="fh5co-services" class="fh5co-bg-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-4">
+						<div class="feature-center animate-box" data-animate-effect="fadeIn">
+							<span class="icon">
+								<i class="icon-eye"></i>
+							</span>
+							<h3>Votre commentaire a bien été ajouté!</h3>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	{% endif %}
+{% endblock %}
+
+{% block corps %}
+	<div id="fh5co-about">
+		<div class="container">
+			<div class="about-content">
+				<div class="row animate-box">
+					<div class="col-md-6 col-md-push-6">
+
+
+
+
+						<div class="desc">
+							<h3 class="art_popup"> {{objet.nom}}</h3>
+							<p>{{objet.description}}</p>
+							<p>{{objet.code_postal}}, {{objet.adresse}}</P>
+						</div>
+						</div>
+							<div class="col-md-6 col-md-pull-6">
+								<img class="img-responsive" src="{{objet_image}}" alt="about">
+						</div>
+
+						{% if peut_commenter %}
+							 <form id="id" action="{% url "commentaire" %}" method="get">
+								{% csrf_token %}
+								<input type="hidden" name="objet_id" value={{objet.id}} />
+								<button type="submit" class="btn btn-primary">Laisser un commentaire</button>
+							</form>
+						{% endif %}
+						{% if peut_supprimer %}
+							 <form id="id" action="{% url "about" %}" method="post">
+								{% csrf_token %}
+								<input type="hidden" name="objet_id" value={{objet.id}} />
+								<button type="submit" class="btn btn-primary">Supprimer l'article</button>
+							</form>
+
+							<form id="id" action="{% url "modifier_objet" %}" method="post">
+								{% csrf_token %}
+								<input type="hidden" name="objet_id" value={{objet.id}} />
+								<button type="submit" class="btn btn-primary">Modifier l'article</button>
+							</form>
+						{% endif %}
+
+						<div class="desc">
+							<p>Article publié par {{objet.user.first_name}} {{objet.user.last_name}}</p>
+							<p>mail : {{objet.user.email}}</p>
+
+							<p>publié le : {{objet.date}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="fh5co-testimonial" style="background-image:url({%static 'appPrincipale/images/fond_comment.jpg' %});">
+		<div class="overlay"></div>
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<h2>Commentaires liés à cet article</h2>
+				</div>
+			</div>
+
+			<div class="container">
+			{% for commentraire in commentaires %}
+
+				<div class="row">
+					<form id="id" action="{% url "supprimer_commentaire" %}" method="post">
+						{% csrf_token %}
+					<div class="col-md-4" >
+						<div class="comment">
+							<div class="box-testimony animate-box">
+								<input type="hidden" name="objet_id" value="{{objet_id}}"/>
+								<input type="hidden" name="commentaire_id" value="{{commentraire.id}}"/>
+								<blockquote>
+									<span class="quote"><span><i class="icon-quote"></i></span></span>
+									<p></p>
+									<p>&ldquo;{{commentraire.contenu}}&rdquo;</p>
+									<p><strong>    {{commentraire.user.username}}</strong></p>
+
+								</blockquote>
+								<p class="author" >{{commentraire.titre}}</p>
+								<p>publié le :{{commentraire.date}}</p>
+								<button type="submit" class="btn btn-primary">Supprimer</button>
+							</div>
+						</div>
+					</div>
+					</form>
+
+				</div>
+			{% endfor %}
+		</div>
+
+	</div>
+
+	<div id="fh5co-started">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<h2>Vous voulez créer votre propre annonce?</h2>
+					<p>Rejoignez UnTruc ou connectez-vous pour avoir accès à toutes les fonctionnalités présentes sur le site</p>
+				</div>
+			</div>
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2">
+					<form action="/accueil/blog" class="form-inline">
+						<div class="col-md-6 col-md-offset-3 col-sm-6">
+							<button class="btn btn-default btn-block">Se connecter</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

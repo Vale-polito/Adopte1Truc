@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html>
+	{% block head %}
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Adopte1Truc &mdash; Site de partage d'articles géolocalisés</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Site de partage d'articles géolocalisés" />
+	<meta name="keywords" content="site, recherche, articles, objets, Adopte1Truc, localisé, proche, chercher, trouver" />
+	<meta name="author" content="V.Pereira, M.Lapeyre, T.Rochette, B.Cauchard" />
+
+	<!--
+	//////////////////////////////////////////////////////
+
+	FREE HTML5 TEMPLATE
+	DESIGNED & DEVELOPED by FreeHTML5.co
+
+	Website: 		http://freehtml5.co/
+	Email: 			info@freehtml5.co
+	Twitter: 		http://twitter.com/fh5co
+	Facebook: 		https://www.facebook.com/fh5co
+
+	//////////////////////////////////////////////////////
+	 -->
+
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
+
+	{% block load_static %}
+	{% load static %}
+	{% endblock %}
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="{%static 'appPrincipale/css/animate.css' %}">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="{%static 'appPrincipale/css/icomoon.css' %}">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="{%static 'appPrincipale/css/bootstrap.css' %}">
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="{%static 'appPrincipale/css/style.css' %}">
+
+	<!-- Modernizr JS -->
+	<script src="{%static 'appPrincipale/js/modernizr-2.6.2.min.js' %}"></script>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.js"
+	integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+	crossorigin="anonymous"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	</head>
+	{% endblock %}
+
+<body>
+
+	<div class="fh5co-loader"></div>
+
+	<div id="page">
+
+
+{% block fh5co-nav %}
+	<nav class="fh5co-nav" role="navigation">
+
+
+		<div class="container">
+			<div class="row">
+				<div class="left-menu text-right menu-1">
+					<ul>
+						<li><a href="/accueil/work">Tous les articles</a></li>
+						<li><a href="/accueil/about">Profil</a></li>
+						<li><a href="/accueil/services">Accueil</a></li>
+					</ul>
+				</div>
+				<div class="logo text-center">
+					<div id="fh5co-logo"><a href="/accueil/index"><img src="{%static 'appPrincipale/images/logoA1Tpetitsf.png' %}" alt="tonimage" /></a></div>
+				</div>
+				<div class="right-menu text-left menu-1">
+					<ul>
+						{% if request.user.is_authenticated %}
+								<li><a href="/accueil/logout/">Déconnexion</a></li>
+						{% else %}
+								<li><a href="/accueil/blog">Connexion</a></li>
+						{% endif %}
+						<li><a href="/accueil/inscription">Inscription</a></li>
+						<li><a href="/accueil/contact">Ajouter un article</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</nav>
+
+{% endblock %}
+
+
+
+{% block fh5co-header %}
+	<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="background-image:url({%static 'appPrincipale/images/back.jpg' %});">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1 text-center">
+					<div class="display-t">
+						<div class="display-tc animate-box" data-animate-effect="fadeIn">
+
+							{% block top %}
+								{% block text_centre_top %}
+								<h1>Que recherchez vous ?</h1>
+								<h2> Les résultats seront localisés au plus proche de vous</h2>
+								{% endblock %}
+
+
+								{% block barre_recherche %}
+								<div class="row">
+									<form class="form-inline" id="fh5co-header-subscribe" action="{% url "work" %}" method="post">
+										{% csrf_token %}
+										<div class="col-md-6 col-md-offset-3">
+											<div class="form-group">
+
+												<input type="text" class="form-control" id="article" placeholder="Nom de l'article..." name="Nom_Article">
+												<input type="text" class="form-control" id="id_code_postal" placeholder="Code postal" name="code_postal">
+
+												<label class="categorie">
+													Catégorie:
+													<span class="custom-dropdown custom-dropdown--white">
+														<select class="custom-dropdown__select custom-dropdown__select--white" name="Titre_Categorie">
+																	<option>Toutes</option>
+																	{% for categorie in categories %}
+																	<option>{{categorie.titre}}</option>
+																	{% endfor %}
+
+														</select>
+													</span>
+												</label>
+
+												<button type="submit" class="btn btn-default">Rechercher</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								{% endblock %}
+							{% endblock %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+{% endblock %}
+
+{% block des_if %}
+
+		{% if objet_cree %}
+
+							<div class="feature-center animate-box" data-animate-effect="fadeIn">
+								<span class="icon">
+									<i class="icon-eye"></i>
+								</span>
+								<h3>Votre Article a bien été ajouté!</h3>
+
+							</div>
+		{% endif %}
+
+
+		{% if commentaire_poster %}
+
+							<div class="feature-center animate-box" data-animate-effect="fadeIn">
+								<span class="icon">
+									<i class="icon-eye"></i>
+								</span>
+								<h3>Votre commentaire a bien été ajouté!</h3>
+
+							</div>
+		{% endif %}
+
+		{% if inscription_good %}
+
+							<div class="feature-center animate-box" data-animate-effect="fadeIn">
+								<span class="icon">
+									<i class="icon-eye"></i>
+								</span>
+								<h3>Vous avez rejoint UnTruc!</h3>
+
+							</div>
+		{% endif %}
+
+		{% if connecte_good %}
+							<div class="feature-center animate-box" data-animate-effect="fadeIn">
+								<span class="icon">
+									<i class="icon-eye"></i>
+								</span>
+								<h3>Vous êtes connecté en tant que {{nom}}!</h3>
+							</div>
+		{% endif %}
+
+		{% if deconnect %}
+							<div class="feature-center animate-box" data-animate-effect="fadeIn">
+								<span class="icon">
+									<i class="icon-eye"></i>
+								</span>
+								<h3>Vous avez été déconnecté.</h3>
+
+							</div>
+		{% endif %}
+
+{% endblock %}
+
+{% block corps %}
+	{% block fh5co-projet %}
+		<div id="fh5co-project">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+						<h2>Articles les plus récents</h2>
+						<p>N'hésitez pas à rentrer une adresse et une catégorie dans la barre de recherche pour affiner vos recherches </p>
+					</div>
+				</div>
+
+
+				<div id="fh5co-project">
+
+					<div class="row">
+
+						{% for objet in objets %}
+						<form action="{% url "article" %}" method="post">
+							{% csrf_token %}
+							<div class="col-md-4 col-sm-6 fh5co-project animate-box" data-animate-effect="fadeIn">
+								<input type="hidden" name="article_nom" value="{{objet.nom}}"/>
+								<input type="hidden" name="article_description" value="{{objet.description}}"/>
+								<input type="hidden" name="article_categorie" value="{{objet.categorie}}"/>
+								<input type="hidden" name="article_image" value="{%static 'appPrincipale/images/work-1.jpg' %}"/>
+									<input type="image" alt="submit" src="{{ objet.photo.url }}" class="img-responsive">
+									<h3>{{objet.nom|truncatechars:20}}</h3>
+									<span>{{objet.description|truncatechars:30}}</span>
+							</div>
+						</form>
+						{% endfor %}
+					</div>
+				</div>
+
+			</div>
+		</div>
+	{% endblock %}
+
+		{% block fh5co-started %}
+		<div id="fh5co-started">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+						{% block text_started %}
+						<h2>Vous voulez créer votre propre annonce?</h2>
+						<p>Rejoignez UnTruc ou connectez-vous pour avoir accès à toutes les fonctionnalités présentes sur le site</p>
+						{% endblock %}
+					</div>
+				</div>
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2">
+						<form action="/accueil/blog" class="form-inline">
+							<div class="col-md-6 col-md-offset-3 col-sm-6">
+								<button class="btn btn-default btn-block">Se connecter</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endblock %}
+{% endblock %}
+
+	{% block footer %}
+	<footer id="fh5co-footer" role="contentinfo">
+		<div class="container">
+			<div class="row row-pb-md">
+				<div class="col-md-4 col-sm-4 col-xs-0 text-center">
+					<ul class="fh5co-footer-links">
+						<li><a href="/accueil/apropos/">About us et contact</a></li>
+					</ul>
+				</div>
+				<div class="col-md-4 col-sm-4 col-xs-0 text-center">
+					<ul class="fh5co-footer-links">
+						<li><a href="/accueil/terms/">Terms, CGU</a></li>
+					</ul>
+				</div>
+				<div class="col-md-4 col-sm-4 col-xs-0 text-center">
+					<ul class="fh5co-footer-links">
+						<li><a href="/accueil/index/">Index</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12 text-center">
+					<p>
+						<small class="block">&copy; 2017 Adopte1Truc. All Rights Reserved.</small>
+						<small class="block">Designed by V.Pereira, M.Lapeyre, B.Cauchard, T.Rochette</a></small>
+					</p>
+					<p>
+						<ul class="fh5co-social-icons">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</footer>
+	{% endblock %}
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+
+		{% block js %}
+		{% endblock %}
+
+
+		{% block src_fin %}
+	<!-- jQuery -->
+	<script src="{%static 'appPrincipale/js/jquery.min.js' %}"></script>
+	<!-- jQuery Easing -->
+	<script src="{%static 'appPrincipale/js/jquery.easing.1.3.js' %}"></script>
+	<!-- Bootstrap -->
+	<script src="{%static 'appPrincipale/js/bootstrap.min.js' %}"></script>
+	<!-- Waypoints -->
+	<script src="{%static 'appPrincipale/js/jquery.waypoints.min.js' %}"></script>
+	<!-- Main -->
+	<script src="{%static 'appPrincipale/js/main.js' %}"></script>
+	{% endblock %}
+
+	</body>
+</html>

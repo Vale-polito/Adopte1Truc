@@ -1,0 +1,502 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Adopte1Truc &mdash; Site de partage d'articles géolocalisés</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Site de partage d'articles géolocalisés" />
+	<meta name="keywords" content="site, recherche, articles, objets, Adopte1Truc, localisé, proche, chercher, trouver" />
+	<meta name="author" content="V.Pereira, M.Lapeyre, T.Rochette, B.Cauchard" />
+
+	<!--
+	//////////////////////////////////////////////////////
+
+	FREE HTML5 TEMPLATE
+	DESIGNED & DEVELOPED by FreeHTML5.co
+
+	Website: 		http://freehtml5.co/
+	Email: 			info@freehtml5.co
+	Twitter: 		http://twitter.com/fh5co
+	Facebook: 		https://www.facebook.com/fh5co
+
+	//////////////////////////////////////////////////////
+	 -->
+
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700" rel="stylesheet">
+	{% load static %}
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="{%static 'appPrincipale/css/animate.css' %}">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="{%static 'appPrincipale/css/icomoon.css' %}">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="{%static 'appPrincipale/css/bootstrap.css' %}">
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="{%static 'appPrincipale/css/style.css' %}">
+
+	<!-- Modernizr JS -->
+	<script src="{%static 'appPrincipale/js/modernizr-2.6.2.min.js' %}"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js"
+	 integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+	 crossorigin="anonymous"></script>
+
+	</head>
+	<body onload="initialize(); codeAddress();" >
+
+
+	<div id="page">
+	<nav class="fh5co-nav" role="navigation">
+
+		<div class="container">
+			<div class="row">
+				<div class="left-menu text-right menu-1">
+					<ul>
+						<li class="active"><a href="/accueil/work">Tous les articles</a></li>
+						<li><a href="/accueil/about">Profil</a></li>
+						<li><a href="/accueil/services">Accueil</a></li>
+					</ul>
+				</div>
+				<div class="logo text-center">
+					<div id="fh5co-logo"><a href="/accueil/index"><img src="{%static 'appPrincipale/images/logoA1Tpetitsf.png' %}" alt="tonimage" /></a></div>
+				</div>
+				<div class="right-menu text-left menu-1">
+					<ul>
+						{% if request.user.is_authenticated %}
+								<li><a href="/accueil/logout/">Déconnexion</a></li>
+						{% else %}
+								<li><a href="/accueil/blog">Connexion</a></li>
+						{% endif %}
+						<li><a href="/accueil/inscription">Inscription</a></li>
+						<li><a href="/accueil/contact">Ajouter un article</a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</nav>
+
+	<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="background-image:url({%static 'appPrincipale/images/back.jpg' %});">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1 text-center">
+					<div class="display-t">
+						<div class="display-tc animate-box" data-animate-effect="fadeIn">
+							<h1>Que recherchez vous ?</h1>
+							<h2> Les résultats seront localisés au plus proche de vous</h2>
+							<div class="row">
+								<form class="form-inline" id="fh5co-header-subscribe" action="{% url "work" %}" method="post">
+									{% csrf_token %}
+									<div class="col-md-6 col-md-offset-3">
+										<div class="form-group">
+
+											<input type="text" class="form-control" id="article" placeholder="Nom de l'article..." name="Nom_Article">
+											<input type="text" class="form-control" id="id_code_postal" placeholder="Code postal" name="code_postal">
+
+											<label class="categorie">
+											    Catégorie:
+											    <span class="custom-dropdown custom-dropdown--white">
+											        <select id="r_categorie" class="custom-dropdown__select custom-dropdown__select--white" name="Titre_Categorie">
+																<option>Toutes</option>
+																{% for categorie in categories %}
+																<option>{{categorie.titre}}</option>
+																{% endfor %}
+
+											        </select>
+											    </span>
+											</label>
+
+											<button type="submit" class="btn btn-default">Rechercher</button>
+										</div>
+
+									</div>
+
+								</form>
+
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</header>
+
+ <script>
+	 $("#fh5co-header-subscribe").submit(function(event){
+
+		 event.preventDefault();
+
+
+		var article = $('#article').val();
+		var code_postal = $('#id_code_postal').val();
+		var r_categorie = $('#r_categorie').val();
+
+		$.ajax({
+			type:"GET",
+			url:"ajax_recherche",
+			data :{
+				 "article":article,
+				 "code_postal":code_postal,
+				 "r_categorie":r_categorie,
+			},
+			dataType : 'html',
+
+			success: function(mes_objets, status){
+
+				$('#corp').replaceWith(mes_objets);
+				initialize();
+				codeAddress();
+				$('html, body').animate({scrollTop: $('#map').offset().top}, 2000);
+
+
+
+			}
+		});
+	});
+
+
+ </script>
+
+
+
+
+
+	    <script>
+		var geocoder;
+		  var map;
+		  function initialize() {
+		    geocoder = new google.maps.Geocoder();
+		    var latlng = new google.maps.LatLng(46.00, 2.00);
+		    var mapOptions = {
+		      zoom: 8,
+		      center: latlng
+		    }
+		    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		  }
+
+		  function codeAddress() {
+				function getReverseGeocodingData(lat, lng) {
+				    var latlng = new google.maps.LatLng(lat, lng);
+				    // This is making the Geocode request
+				    var geocoder = new google.maps.Geocoder();
+				    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+				        if (status !== google.maps.GeocoderStatus.OK) {
+				            alert(status);
+				        }
+				        // This is checking to see if the Geoeode Status is OK before proceeding
+				        if (status == google.maps.GeocoderStatus.OK) {
+				            //console.log(results);
+				            var address = (results[0].formatted_address);
+										//window.alert(address.toString());
+				        }
+				    });
+				}
+				//var position_user;
+				var infoWindow = new google.maps.InfoWindow({map: map});
+				if (navigator.geolocation) {
+				 navigator.geolocation.getCurrentPosition(function(position) {
+
+					 var pos = {
+						 lat: position.coords.latitude,
+						 lng: position.coords.longitude
+					 };
+					 //position_user=getReverseGeocodingData(pos.lat, pos.lng);
+					 //window.alert(pos.lat);
+					 //window.alert(pos.lng);
+					 var pinColor = "0000FF";
+						var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+								new google.maps.Size(21, 34),
+								new google.maps.Point(0,0),
+								new google.maps.Point(10, 34));
+						var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+								new google.maps.Size(40, 37),
+								new google.maps.Point(0, 0),
+								new google.maps.Point(12, 35));
+					var marker = new google.maps.Marker({
+							map: map,
+							position: pos,
+							icon: pinImage,
+							shadow: pinShadow,
+							Title: "Votre position actuelle"
+					 });
+					 map.setCenter(pos);
+					 //infoWindow.setPosition(pos);
+					 //infoWindow.setContent('Votre localisation');
+					 //map.setCenter(pos);
+				 }, function() {
+					 handleLocationError(true, infoWindow, map.getCenter());
+				 });
+			 } else {
+				 // if Browser doesn't support Geolocation
+				 handleLocationError(false, infoWindow, map.getCenter());
+			 }
+			 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+				infoWindow.setPosition(pos);
+				infoWindow.setContent(browserHasGeolocation ?
+															'Error: The Geolocation service failed.' :
+															'Error: Your browser doesn\'t support geolocation.');
+			}
+					var i=0;
+					/* var add=['#1','#2','#3','#4','#5','#6','#7','#8','#9','#10','#11','#12','#13','#14','#1','#16'];
+					 for(var k=0; k<16;k++){
+						if($(add[k]).val()==undefined){
+
+						}else{
+
+						address = $(add[k]).val();*/
+
+							$('.divAdresseMa').each(function(index){
+
+									address=$(this).val();
+
+									//position_user="6 avenue des arts 69100";
+								//var address = document.getElementById('address').value;
+									//var distance = google.maps.geometry.spherical.computeDistanceBetween( "paris", "new_york" );
+									//window.alert(distance);
+
+								  geocoder.geocode( { 'address': address}, function(results, status) {
+								  if (status == 'OK') {
+											i=i+1;
+									//map.setCenter(results[0].geometry.location);
+
+									var marker = new google.maps.Marker({
+										map: map,
+										position: results[0].geometry.location,
+													Title: "article n°"+i.toString()
+									});
+								  } else {
+									//alert('Geocode was not successful for the following reason: ' + status);
+								  }
+								});
+							//}
+						});
+
+		  }
+
+	    </script>
+
+
+			<div id="map" style=" width: 100%; height: 300px;"></div>
+
+			<script>
+			function initMap() {
+
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 3,
+					center: {lat: 45.7667, lng: 4.8833}
+				});
+
+
+			}
+			</script>
+			<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+	    </script>
+	    <script async defer
+	    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw0Of6GQVBudbZhUokaYEsszZKuwryREQ&libraries=geometry&callback=initMap">
+			</script>
+
+	{% if commentaire_supprime %}
+		<div id="fh5co-services" class="fh5co-bg-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-4">
+						<div class="feature-center animate-box" data-animate-effect="fadeIn">
+							<span class="icon">
+								<i class="icon-eye"></i>
+							</span>
+							<h3>Votre commentaire a bien été supprimé!</h3>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	{% endif %}
+
+ <div class="corp" id="corp">
+	<div style="overflow: auto" id="fh5co-project">
+		<div class="container">
+			<div class="row" id="rrow">
+				{%if not objets %}
+					<h3 class="wrong_connect">Aucun article ne correspond à vos recherches.</h3>
+				{% else %}
+				{% for objet in objets %}
+				<form action="{% url "article" %}" method="post">
+					{% csrf_token %}
+					<div class="col-lg-4 col-md-4">
+						<div class="fh5co-blog animate-box">
+
+							<input class="divAdresseMa" type="hidden" id="{{objet.id}}" value="{{objet.code_postal}}+{{objet.adresse}}">
+
+							<input type="hidden" name="objet_id" value="{{objet.id}}"/>
+							<!--<input type="hidden" name="article_nom" value="{{objet.nom}}"/>
+							<input type="hidden" name="article_description" value="{{objet.description}}"/>
+							<input type="hidden" name="article_categorie" value="{{objet.categorie}}"/>-->
+							<input type="hidden" name="objet_image" value="{{objet.photo.url}}"/>
+							<input type="image" class="img-responsive" src="{{objet.photo.url}}" alt="Submit"/>
+							<div class="blog-text">
+								<h3><a href="/accueil/article">{{objet.nom|truncatechars:20}}</a></h3>
+								<span class="posted_on">{{objet.categorie}}</span>
+								<span class="comment"><a href=""><i class="icon-speech-bubble"></i></a></span>
+								<p>{{objet.description|truncatechars:30}}</p>
+								<button type="submit" class="btn btn-primary">En savoir plus</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="fh5co-blog animate-box">
+<button id="dada" class="btn btn-primary">Plus d'articles</button>
+</div>
+
+
+ <script>
+	 var c=1;
+	 $("#dada").click(function(){
+
+		$.ajax({
+			type:"GET",
+			url:"ajax",
+			data :{
+				 c
+			},
+			dataType : 'html',
+
+			success: function(mes_objets, status){
+
+				$('.corp').append(mes_objets);
+
+				c=c+1;
+				$('html, body').animate({scrollTop: $('#dada').offset().top}, 2000);
+			}
+		});
+	});
+
+
+ </script>
+
+
+	<div id="fh5co-started">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<h2>Vous voulez créer votre propre annonce?</h2>
+					<p>Rejoignez UnTruc ou connectez-vous pour avoir accès à toutes les fonctionnalités présentes sur le site</p>
+				</div>
+			</div>
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2">
+					<form action="/accueil/blog" class="form-inline">
+						<div class="col-md-6 col-md-offset-3 col-sm-6">
+							<button type="submit" class="btn btn-default btn-block">Se connecter</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer id="fh5co-footer" role="contentinfo">
+		<div class="container">
+			<div class="row row-pb-md">
+				<div class="col-md-4 col-sm-4 col-xs-0 text-center">
+					<ul class="fh5co-footer-links">
+						<li><a href="/accueil/apropos/">About us et contact</a></li>
+					</ul>
+				</div>
+				<div class="col-md-4 col-sm-4 col-xs-0 text-center">
+					<ul class="fh5co-footer-links">
+						<li><a href="/accueil/terms/">Terms, CGU</a></li>
+					</ul>
+				</div>
+				<div class="col-md-4 col-sm-4 col-xs-0 text-center">
+					<ul class="fh5co-footer-links">
+						<li><a href="/accueil/index/">Index</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12 text-center">
+					<p>
+						<small class="block">&copy; 2017 Adopte1Truc. All Rights Reserved.</small>
+						<small class="block">Designed by V.Pereira, M.Lapeyre, B.Cauchard, T.Rochette</a></small>
+					</p>
+					<p>
+						<ul class="fh5co-social-icons">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</footer>
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	<script>
+	var goToArticle = function() {
+		$('html, body').animate({scrollTop: $('#map').offset().top}, 2000);
+		};
+
+
+	 if(window.attachEvent) {
+		window.attachEvent('onload',goToArticle);
+	} else {
+		if(window.onload) {
+				var curronload = window.onload;
+				var newonload = function(evt) {
+						curronload(evt);
+						goToArticle(evt);
+				};
+				window.onload = newonload;
+		} else {
+				window.onload = goToArticle;
+		}
+	}
+	</script>
+	<!-- jQuery -->
+	<script src="{%static 'appPrincipale/js/jquery.min.js' %}"></script>
+	<!-- jQuery Easing -->
+	<script src="{%static 'appPrincipale/js/jquery.easing.1.3.js' %}"></script>
+	<!-- Bootstrap -->
+	<script src="{%static 'appPrincipale/js/bootstrap.min.js' %}"></script>
+	<!-- Waypoints -->
+	<script src="{%static 'appPrincipale/js/jquery.waypoints.min.js' %}"></script>
+	<!-- Main -->
+	<script src="{%static 'appPrincipale/js/main.js' %}"></script>
+
+	</body>
+</html>

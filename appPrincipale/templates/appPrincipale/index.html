@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block load_static %}
+	{% load static %}
+	{% endblock %}
+	{% block fh5co-nav %}
+		<nav class="fh5co-nav" role="navigation">
+
+
+			<div class="container">
+				<div class="row">
+					<div class="left-menu text-right menu-1">
+						<ul>
+							<li><a href="/accueil/work">Tous les articles</a></li>
+							<li><a href="/accueil/about">Profil</a></li>
+							<li class="active">
+								<a href="/accueil/services">Accueil</a>
+							</li>
+						</ul>
+					</div>
+					<div class="logo text-center">
+						<div id="fh5co-logo"><a href="/accueil/index"><img src="{%static 'appPrincipale/images/logoA1Tpetitsf.png' %}" alt="tonimage" /></a></div>
+					</div>
+					<div class="right-menu text-left menu-1">
+						<ul>
+							{% if request.user.is_authenticated %}
+									<li><a href="/accueil/logout/">Déconnexion</a></li>
+							{% else %}
+									<li><a href="/accueil/blog">Connexion</a></li>
+							{% endif %}
+							<li><a href="/accueil/inscription">Inscription</a></li>
+							<li><a href="/accueil/contact">Ajouter un article</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</nav>
+
+	{% endblock %}
+
+{% block fh5co-projet %}
+<div class="corp">
+	<div style="overflow: auto" id="fh5co-project">
+		<div class="container">
+			<div class="row">
+				{%if not objets %}
+					<h3 class="wrong_connect">Aucun article ne correspond à vos recherches.</h3>
+				{% else %}
+				{% for objet in objets %}
+				<form action="{% url "article" %}" method="post">
+					{% csrf_token %}
+					<div class="col-lg-4 col-md-4">
+						<div class="fh5co-blog animate-box">
+
+							<input type="hidden" name="objet_id" value="{{objet.id}}"/>
+
+							<input type="hidden" name="objet_image" value="{{objet.photo.url}}"/>
+							<input type="image" class="img-responsive" src="{{objet.photo.url}}" alt="Submit"/>
+							<div class="blog-text">
+								<h3><a href="/accueil/article">{{objet.nom}}</a></h3>
+								<span class="posted_on">{{objet.categorie}}</span>
+								<span class="comment"><a href=""><i class="icon-speech-bubble"></i></a></span>
+								<p>{{objet.description|truncatechars:25}}</p>
+								<button type="submit" class="btn btn-primary">En savoir plus</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="fh5co-blog animate-box">
+<button id="dada" class="btn btn-primary">Plus d'articles</button>
+</div>
+
+
+ <script>
+	 var c=1;
+	 $("#dada").click(function(){
+
+		$.ajax({
+			type:"GET",
+			url:"ajax",
+			data :{
+				 c
+			},
+			dataType : 'html',
+
+			success: function(mes_objets, status){
+
+				$('.corp').append(mes_objets);
+
+				c=c+1;
+			}
+		});
+	});
+
+
+ </script>
+
+
+{% endblock %}
+
+{% block script %}
+
+
+   <script>
+
+	function testt(){
+		window.alert("ta");
+	}
+
+
+	$("#get_more").click(function(){
+		$.ajax({
+			type:"GET",
+			url:"{% url "ajax"}",
+			dataType : 'json',
+			success: function(mes_objets, status){
+				$(mes_objets).appendTo('#id_du_block_ou_ajouter');
+				/*J'ai essayer de construire la meme structure en html mais je sais
+
+				var form=document.creatElement('form');
+				form.action="{% url "article" %}";
+				form.method="post";
+
+				var col_lg_4=document.creatElement('div');
+				col_lg_4.class="col-lg-4 col-md-4";
+				form.appendChild(col_lg_4);
+
+				var fh5co_blog=document.creatElement('div');
+				fh5co_blog.class="fh5co-blog animate-box";
+				col_lg_4.appendChild(fh5co_blog);
+
+				for(i=; i<mes_objets.length; i++){
+
+					$('ul').append('<li>'+mes_objets[i]+'</li>');
+
+					var objet_id=document.creatElement('input');
+					objet_id.type="hidden";
+					objet_id.name="objet_id";
+					objet_id.value=mes_objets[i];
+				}*/
+
+			},
+			error: function(resultat, status,error){
+
+			},
+			complete: function(resultat, status){
+
+			}
+			/*<form action="{% url "article" %}" method="post">
+					{% csrf_token %}
+					<div class="col-lg-4 col-md-4">
+						<div class="fh5co-blog animate-box">
+
+							<input type="hidden" name="objet_id" value="{{objet.id}}"/>
+
+							<input type="hidden" name="objet_image" value="{{objet.photo.url}}"/>
+							<input type="image" class="img-responsive" src="{{objet.photo.url}}" alt="Submit"/>
+							<div class="blog-text">
+								<h3><a href="/accueil/article">{{objet.nom}}</a></h3>
+								<span class="posted_on">{{objet.categorie}}</span>
+								<span class="comment"><a href=""><i class="icon-speech-bubble"></i></a></span>
+								<p>{{objet.description|truncatechars:35}}</p>
+								<button type="submit" class="btn btn-primary">En savoir plus</button>
+							</div>
+						</div>
+					</div>
+				</form>*/
+		});
+
+	});
+
+	//avec load() qui permet de charger tout simplement du contenu sans réflection
+	$("#container").click(function(){
+		('#container').load('mapage.html');
+	});
+
+
+
+</script>
+{% endblock %}

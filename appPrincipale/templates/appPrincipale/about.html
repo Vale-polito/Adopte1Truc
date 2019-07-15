@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+	{% block load_static %}
+	{% load static %}
+	{% endblock %}
+
+	{% block fh5co-nav %}
+		<nav class="fh5co-nav" role="navigation">
+
+
+			<div class="container">
+				<div class="row">
+					<div class="left-menu text-right menu-1">
+						<ul>
+							<li><a href="/accueil/work">Tous les articles</a></li>
+							<li class="active"><a href="/accueil/about">Profil</a></li>
+							<li><a href="/accueil/services">Accueil</a></li>
+						</ul>
+					</div>
+					<div class="logo text-center">
+						<div id="fh5co-logo"><a href="/accueil/index"><img src="{%static 'appPrincipale/images/logoA1Tpetitsf.png' %}" alt="tonimage" /></a></div>
+					</div>
+					<div class="right-menu text-left menu-1">
+						<ul>
+							{% if request.user.is_authenticated %}
+									<li><a href="/accueil/logout/">Déconnexion</a></li>
+							{% else %}
+									<li><a href="/accueil/blog">Connexion</a></li>
+							{% endif %}
+							<li><a href="/accueil/inscription">Inscription</a></li>
+							<li><a href="/accueil/contact">Ajouter un article</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</nav>
+
+	{% endblock %}
+
+{% block top %}
+							<h1>Ton profil</h1>
+{% endblock %}
+
+
+
+
+
+
+	{% block fh5co-projet %}
+	<div class="col-md-5 col-md-push-1 animate-box">
+
+		<div class="fh5co-contact-info">
+			<h3 id="aqui">Contact Information</h3>
+			<ul>
+				<li class="address">
+					<strong>Username: </strong> <br>{{user.username}} <br> <strong>First name : </strong> <br>{{user.first_name}} <br> <strong>Last name : </strong> <br> {{user.last_name}}</li>
+
+				<li class="email">{{user.email}}</li>
+>
+			</ul>
+		</div>
+
+		<form id="id" action="{% url "modifier_profil" %}" method="post">
+			{% csrf_token %}
+			<button type="submit" class="btn btn-primary">Modifier vos informations personnel</button>
+	</form>
+
+	</div>
+
+
+
+
+
+
+	<div style="overflow: auto" id="fh5co-project">
+		<h3>Vos articles</h3>
+		<div class="container">
+			<div class="row">
+				{%if not objets %}
+					<h3 class="wrong_connect">Vous ne possédez aucun article.</h3>
+				{% else %}
+				{% for objet in objets %}
+				<form action="{% url "article" %}" method="post">
+					{% csrf_token %}
+					<div class="col-lg-4 col-md-4">
+						<div class="fh5co-blog animate-box">
+
+							<input type="hidden" name="objet_id" value="{{objet.id}}"/>
+							<input type="hidden" name="objet_image" value="{{objet.photo.url}}"/>
+							<input type="image" class="img-responsive" src="{{objet.photo.url}}" alt="Submit"/>
+							<div class="blog-text">
+								<h3><a href="/accueil/article">{{objet.nom}}</a></h3>
+								<span class="posted_on">{{objet.categorie}}</span>
+								<span class="comment"><a href=""><i class="icon-speech-bubble"></i></a></span>
+								<p>{{objet.description|truncatewords:20}}</p>
+								<button type="submit" class="btn btn-primary">En savoir plus</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	{% endblock %}
+
+
+
+
+
+		{% block fh5co-started %}
+
+
+		{% endblock %}
+
+{% block js %}
+	<script>
+	var goToArticle = function() {
+		$('html, body').animate({scrollTop: $('.address').offset().top}, 2000);
+		};
+
+
+	 if(window.attachEvent) {
+		window.attachEvent('onload',goToArticle);
+	} else {
+		if(window.onload) {
+				var curronload = window.onload;
+				var newonload = function(evt) {
+						curronload(evt);
+						goToArticle(evt);
+				};
+				window.onload = newonload;
+		} else {
+				window.onload = goToArticle;
+		}
+	} </script>
+{% endblock %}

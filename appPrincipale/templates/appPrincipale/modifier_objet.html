@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+	{% block load_static %}
+	{% load static %}
+	{% endblock %}
+
+
+
+							{% block top %}
+							<h1>Modifier votre article</h1>
+							{% endblock %}
+
+{% block des_if %}
+{% endblock %}
+
+
+{% block corps %}
+
+
+			{% if code_false %}
+				<div id="fh5co-services" class="fh5co-bg-section">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 col-sm-4">
+								<div class="feature-center animate-box" data-animate-effect="fadeIn">
+									<span class="icon">
+										<i class="icon-eye"></i>
+									</span>
+									<h3>Erreur à la création de l'article (code postal faux).</h3>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			{% endif %}
+			
+			{% if bol_vulgaire %}
+				<div id="fh5co-services" class="fh5co-bg-section">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 col-sm-4">
+								<div class="feature-center animate-box" data-animate-effect="fadeIn">
+									<span class="icon">
+										<i class="icon-eye"></i>
+									</span>
+									<h3>Restez poli s'il vous plait</h3>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			{% endif %}
+			
+			
+
+			{% if objet_false %}
+				<div id="fh5co-services" class="fh5co-bg-section">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 col-sm-4">
+								<div class="feature-center animate-box" data-animate-effect="fadeIn">
+									<span class="icon">
+										<i class="icon-eye"></i>
+									</span>
+									<h3>Erreur à la création de l'article.</h3>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+			<div id="fh5co-contact">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-5 col-md-push-1 animate-box">
+					<form id="id" action="{% url "modifier_objet" %}" method="post">
+							{% csrf_token %}
+							<div class="fh5co-contact-info">
+
+								<h3>Photo</h3>
+								<ul>
+									<li> Fichiers .jpg / .png / .gif (Max: 20Mo)</li>
+								</ul>
+								<input type="file" name="photo" id="id_photo" class=""/>
+
+							</div>
+
+						</div>
+						<div class="col-md-6 animate-box">
+							<h3>Votre annonce</h3>
+									<select id="id_categorie" name="categorie" size="l">
+										<option value="{{objet.categorie.id}}">{{objet.categorie.titre}}</option>
+										{% for categorie in categories %}
+										<option value="{{categorie.id}}">{{categorie.titre}}</option>
+										{% endfor %}
+									</select>
+
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="subject">Subject</label> -->
+										<input type="text" id="id_nom" name="nom" class="form-control" value={{objet.nom}}>
+									</div>
+								</div>
+
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="message">Message</label> -->
+										<textarea name="description" id="id_description" cols="30" rows="10" class="form-control" >{{objet.description}}</textarea>
+									</div>
+								</div>
+								<input type="hidden" name="user" value="1"/>
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="email">Email</label> -->
+										<input type="text" id="id_code_postal" name="code_postal" class="form-control" value={{objet.code_postal}}>
+									</div>
+								</div>
+								<div class="row form-group">
+									<div class="col-md-12">
+										<!-- <label for="email">Email</label> -->
+										<input type="text" id="id_adresse" name="adresse" class="form-control" value={{objet.adresse}} placeholder={{objet.adresse}}>
+									</div>
+								</div>
+								
+								</div>
+								<div class="form-group">
+									<input type="hidden" name="objet_id" value={{objet.id}}>
+									<input type="submit" value="Publier" class="btn btn-primary">
+								</div>
+
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div id="map" class="fh5co-map"></div>
+
+			<div id="fh5co-started">
+				<div class="container">
+					<div class="row animate-box">
+						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+							<h2>Consultez les autres articles!</h2>
+							<p>N'hésitez pas à jeter un oeil aux nombreux articles mis en ligne par la communauté UnTruc!</p>
+						</div>
+					</div>
+					<div class="row animate-box">
+						<div class="col-md-8 col-md-offset-2">
+							<form action="/accueil/work" class="form-inline">
+								<div class="col-md-6 col-md-offset-3 col-sm-6">
+									<button type="submit" class="btn btn-default btn-block">Tous les articles</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+{% endblock %}
+
+
+
+
+		{% block js %}
+	<script>
+	var goToArticle = function() {
+		$('html, body').animate({scrollTop: $('#fh5co-contact').offset().top}, 2000);
+		};
+
+
+	 if(window.attachEvent) {
+		window.attachEvent('onload',goToArticle);
+	} else {
+		if(window.onload) {
+				var curronload = window.onload;
+				var newonload = function(evt) {
+						curronload(evt);
+						goToArticle(evt);
+				};
+				window.onload = newonload;
+		} else {
+				window.onload = goToArticle;
+		}
+	} </script>
+	{% endblock %}
+	

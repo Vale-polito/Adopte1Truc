@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+	{% block load_static %}
+	{% load static %}
+	{% endblock %}
+
+{% block fh5co-nav %}
+		<nav class="fh5co-nav" role="navigation">
+
+
+			<div class="container">
+				<div class="row">
+					<div class="left-menu text-right menu-1">
+						<ul>
+							<li><a href="/accueil/work">Tous les articles</a></li>
+							<li><a href="/accueil/about">Profil</a></li>
+							<li><a href="/accueil/services">Accueil</a></li>
+						</ul>
+					</div>
+					<div class="logo text-center">
+						<div id="fh5co-logo"><a href="/accueil/index"><img src="{%static 'appPrincipale/images/logoA1Tpetitsf.png' %}" alt="tonimage" /></a></div>
+					</div>
+					<div class="right-menu text-left menu-1">
+						<ul>
+							{% if request.user.is_authenticated %}
+									<li><a href="/accueil/logout/">Déconnexion</a></li>
+							{% else %}
+									<li><a href="/accueil/blog">Connexion</a></li>
+							{% endif %}
+							<li class="active">
+								<a href="/accueil/inscription">Inscription</a>
+							</li>
+							<li><a href="/accueil/contact">Ajouter un article</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</nav>
+
+{% endblock %}
+
+{% block top %}
+							<h1>Rejoins UnTruc!</h1>
+							<h2>Pour poster tes annonces et avoir accès à de nombreuses fonctionnalités!</h2>
+{% endblock %}
+
+{% block corps %}
+		{% if request.user.is_authenticated %}
+		<div id="fh5co-started">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+						<h2>Vous êtes déjà connecté en tant que {{nom}}!</h2>
+						<p>Vous pouvez ajouter une annonce ou accéder à votre profil pour modifier vos informations.</p>
+					</div>
+				</div>
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2">
+						<form action="/accueil/contact" class="form-inline">
+							{% csrf_token %}
+							<div class="col-md-6 col-md-offset-3 col-sm-6">
+								<button type="submit" class="btn btn-default btn-block">Ajouter un article</button>
+							</div>
+						</form>
+						<form action="/accueil/about" class="form-inline">
+							{% csrf_token %}
+							<div class="col-md-6 col-md-offset-3 col-sm-6">
+								<button type="submit" class="btn btn-default btn-block">Votre profil</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% else %}
+			<div id="fh5co-contact">
+				<div class="container">
+					<div class="row">
+						<!--<div class="col-md-5 col-md-push-1 animate-box">
+
+							<div class="fh5co-contact-info">
+								<h3>Contact Information</h3>
+								<ul>
+									<li class="address">198 West 21th Street, <br> Suite 721 New York NY 10016</li>
+									<li class="phone"><a href="tel://1234567920">+ 1235 2355 98</a></li>
+									<li class="email"><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+									<li class="url"><a href="http://FreeHTML5.co">FreeHTML5.co</a></li>
+								</ul>
+							</div>
+
+						</div>-->
+				{% block content %}
+						  <h2>Créer un compte</h2>
+						  <form method="post">
+							{% csrf_token %}
+							{{ form.as_p }}
+							<input type="submit" value="Je m'inscris!"/>
+						  </form>
+						{% endblock %}
+		{% endif %}
+{% endblock %}
+
+{% block js %}
+	<script>
+	var goToArticle = function() {
+		$('html, body').animate({scrollTop: $('#fh5co-contact').offset().top}, 2000);
+		};
+
+
+	 if(window.attachEvent) {
+		window.attachEvent('onload',goToArticle);
+	} else {
+		if(window.onload) {
+				var curronload = window.onload;
+				var newonload = function(evt) {
+						curronload(evt);
+						goToArticle(evt);
+				};
+				window.onload = newonload;
+		} else {
+				window.onload = goToArticle;
+		}
+	} </script>
+{% endblock %}
